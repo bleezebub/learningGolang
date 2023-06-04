@@ -1,9 +1,23 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"crud/initializers"
+	"crud/models"
+
+	"github.com/gin-gonic/gin"
+)
 
 func PostCreate(c *gin.Context) {
+	post := models.Post{Title: "Post Title", Body: "Post Body"}
+
+	result := initializers.DB.Create(&post)
+
+	if result.Error != nil {
+		c.Status(400)
+		return
+	}
+
 	c.JSON(200, gin.H{
-		"message": "pong",
+		"post": post,
 	})
 }
